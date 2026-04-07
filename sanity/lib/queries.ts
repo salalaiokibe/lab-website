@@ -6,6 +6,7 @@ export const SITE_SETTINGS_QUERY = groq`
     catchphrase,
     catchphraseSub,
     professorImage,
+    biography,
     greeting,
     greetingQuote,
     contactAddress,

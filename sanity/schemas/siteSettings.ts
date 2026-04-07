@@ -24,6 +24,13 @@ export const siteSettings = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "biography",
+      title: "略歴・実績",
+      description: "先生の略歴・主な実績（Messageセクションの上に表示）",
+      type: "array",
+      of: [{ type: "block" }],
+    }),
+    defineField({
       name: "greeting",
       title: "先生からの挨拶文",
       type: "array",

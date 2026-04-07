@@ -10,6 +10,7 @@ type SiteSettings = {
   catchphrase: string | null;
   catchphraseSub: string | null;
   professorImage: { asset: { _ref: string } } | null;
+  biography: TypedObject[] | null;
   greeting: TypedObject[] | null;
   greetingQuote: string | null;
   contactAddress: string | null;
@@ -37,21 +38,22 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hero */}
+      {/* Hero ── 左テキスト / 右画像 2カラム */}
       <section className="bg-gray-50 border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <p className="text-sm font-medium text-gray-500 mb-3 tracking-widest uppercase">
+        <div className="max-w-5xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-0 items-stretch min-h-[480px]">
+          {/* Left: text */}
+          <div className="flex flex-col justify-center pr-0 md:pr-12">
+            <p className="text-xs font-medium text-gray-400 mb-4 tracking-widest uppercase">
               Keio University SFC
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight">
               清水亮<br />研究会
             </h1>
-            <p className="text-lg text-gray-600 leading-relaxed whitespace-pre-line">
+            <p className="text-base text-gray-600 leading-relaxed whitespace-pre-line mb-2">
               {settings?.catchphrase ?? "テクノロジーで社会を変える。\nAIの可能性を探求し、実装し、問い続ける場所。"}
             </p>
             {settings?.catchphraseSub && (
-              <p className="text-sm text-gray-400 mt-2">{settings.catchphraseSub}</p>
+              <p className="text-sm text-gray-400 mt-1">{settings.catchphraseSub}</p>
             )}
             <div className="flex gap-3 mt-8">
               <Link
@@ -69,27 +71,66 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Professor photo */}
-          <div className="flex justify-center">
-            <div className="relative w-64 h-80 rounded-2xl overflow-hidden bg-gray-200 shadow-md">
-              {settings?.professorImage ? (
-                <Image
-                  src={urlFor(settings.professorImage).width(512).height(640).fit("crop").url()}
-                  alt="清水 亮 教授"
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
-                  清水 亮 教授
-                </div>
-              )}
-            </div>
+          {/* Right: professor photo – full-height, edge-to-edge on the right */}
+          <div className="relative mt-10 md:mt-0 rounded-2xl md:rounded-l-none md:rounded-r-2xl overflow-hidden bg-gray-200 min-h-[360px] md:min-h-0">
+            {settings?.professorImage ? (
+              <Image
+                src={urlFor(settings.professorImage).width(800).height(900).fit("crop").url()}
+                alt="清水 亮"
+                fill
+                className="object-cover object-top"
+                priority
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-gray-400/40">
+                <span className="text-white text-sm font-medium">清水 亮</span>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Professor's message */}
+      {/* Biography ── 略歴・実績 + 画像 */}
+      <section className="border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 py-16 grid md:grid-cols-[1fr_280px] gap-12 items-start">
+          <div>
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-6">
+              Profile
+            </h2>
+            <div className="mb-3">
+              <p className="font-bold text-lg">清水 亮</p>
+              <p className="text-sm text-gray-500">慶應義塾大学 環境情報学部 専任講師</p>
+            </div>
+            {settings?.biography ? (
+              <div className="text-sm md:text-base text-gray-600 leading-relaxed">
+                <PortableText value={settings.biography} />
+              </div>
+            ) : (
+              <p className="text-sm md:text-base text-gray-500 leading-relaxed">
+                略歴・実績はSanity Studioの「サイト設定」→「略歴・実績」から入力してください。
+              </p>
+            )}
+          </div>
+
+          {/* Profile image */}
+          <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-gray-100 shadow-sm">
+            {settings?.professorImage ? (
+              <Image
+                src={urlFor(settings.professorImage).width(560).height(740).fit("crop").url()}
+                alt="清水 亮"
+                fill
+                className="object-cover object-top"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-gray-300 text-sm">
+                写真
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Message */}
       <section className="max-w-5xl mx-auto px-4 py-16">
         <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-6">Message</h2>
         <div className="max-w-2xl">
@@ -100,7 +141,7 @@ export default async function HomePage() {
           )}
           <div className="text-sm text-gray-500 mb-6">
             <p className="font-medium text-gray-700">清水 亮</p>
-            <p>慶應義塾大学 環境情報学部 教授</p>
+            <p>慶應義塾大学 環境情報学部 専任講師</p>
           </div>
           {settings?.greeting ? (
             <div className="text-sm md:text-base text-gray-600">
