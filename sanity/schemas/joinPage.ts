@@ -27,6 +27,22 @@ export const joinPage = defineType({
       ],
     }),
     defineField({
+      name: "springSchedule",
+      title: "春学期スケジュール",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "date", title: "日程", type: "string" }),
+            defineField({ name: "event", title: "イベント名", type: "string" }),
+            defineField({ name: "note", title: "補足", type: "string" }),
+          ],
+          preview: { select: { title: "date", subtitle: "event" } },
+        },
+      ],
+    }),
+    defineField({
       name: "springClosed",
       title: "春学期募集：締め切り済みにする",
       type: "boolean",

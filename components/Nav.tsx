@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/activities", label: "領域・活動" },
+  { href: "/activities", label: "活動・実績" },
   { href: "/members", label: "メンバー" },
   { href: "/join", label: "参加募集" },
 ];

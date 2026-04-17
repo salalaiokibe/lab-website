@@ -36,6 +36,19 @@ export const activity = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "category",
+      title: "カテゴリ",
+      type: "string",
+      options: {
+        list: [
+          { title: "卒業・制作プロジェクト", value: "project" },
+          { title: "活動レポート", value: "report" },
+          { title: "合宿", value: "camp" },
+        ],
+        layout: "radio",
+      },
+    }),
+    defineField({
       name: "tags",
       title: "タグ",
       type: "array",

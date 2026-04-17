@@ -6,6 +6,7 @@ export const metadata = { title: "参加募集 | 清水亮研究会" };
 type JoinPageData = {
   intro: string | null;
   qualities: { title: string; description: string }[] | null;
+  springSchedule: { date: string; event: string; note: string }[] | null;
   springClosed: boolean | null;
   springStatusText: string | null;
   fallTitle: string | null;
@@ -40,6 +41,7 @@ export default async function JoinPage() {
   const data = await safeFetch<JoinPageData>(JOIN_PAGE_QUERY, {}, { next: { revalidate: 60 } });
 
   const qualities = data?.qualities?.length ? data.qualities : fallbackQualities;
+  const springSchedule = data?.springSchedule?.length ? data.springSchedule : null;
   const springClosed = data?.springClosed ?? true;
   const springStatusText = data?.springStatusText ?? "2026年春の入会選考は募集を締め切りました。ご応募いただいた皆様、ありがとうございました。";
   const fallTitle = data?.fallTitle ?? "2026年秋 入会選考";
@@ -74,6 +76,33 @@ export default async function JoinPage() {
           ))}
         </div>
       </section>
+
+      {/* Spring schedule */}
+      {springSchedule && springSchedule.length > 0 && (
+        <section>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-6">
+            Spring Schedule
+          </p>
+          <h2 className="text-2xl font-bold mb-8">春学期スケジュール</h2>
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-gray-200 ml-3" />
+            <ul className="space-y-6">
+              {springSchedule.map((item, i) => (
+                <li key={i} className="flex gap-6 relative pl-9">
+                  <div className="absolute left-0 top-1 w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-xs font-bold shrink-0">
+                    {i + 1}
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 mb-0.5">{item.date}</p>
+                    <p className="font-medium text-sm">{item.event}</p>
+                    {item.note && <p className="text-xs text-gray-400 mt-0.5">{item.note}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* Recruitment status */}
       <section>

@@ -56,7 +56,19 @@ export const ACTIVITIES_QUERY = groq`
     date,
     author,
     image,
-    tags
+    tags,
+    category
+  }
+`;
+
+export const HOME_ACTIVITIES_QUERY = groq`
+  *[_type == "activity"] | order(date desc)[0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    date,
+    image,
+    category
   }
 `;
 
@@ -72,6 +84,7 @@ export const ACTIVITY_BY_SLUG_QUERY = groq`
     author,
     image,
     tags,
+    category,
     body
   }
 `;
@@ -141,6 +154,7 @@ export const JOIN_PAGE_QUERY = groq`
   *[_type == "joinPage"][0] {
     intro,
     qualities[] { title, description },
+    springSchedule[] { date, event, note },
     springClosed,
     springStatusText,
     fallTitle,
